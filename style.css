@@ -1,0 +1,66 @@
+html {
+  cursor: none; 
+}
+
+body {
+ /* cursor: none; */
+  -webkit-user-select: none; /* Safari, Chrome, Opera */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE 10+ and Edge */
+  user-select: none;         /* Standard syntax */
+}
+
+#fake-cursor {
+    width: 0px;
+    height: 0px;
+    background-color: blue;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none; 
+    transform: translate(-50%, -50%); 
+    z-index: 9990;
+}
+#cursor-image {
+    z-index: 9999;
+}
+.clicktest:active {
+  background-color: darkblue;
+  transform: scale(0.95); /* Shrinks the button while pressed */
+}
+
+.rope-part { 
+    position: absolute;
+    width: 5px;          
+    height: 10px;         
+    background-color: rgb(140, 140, 140); 
+    border-radius: 40%;   /* Optional: makes the rope segments circular */
+    pointer-events: none; 
+    z-index: 10;
+}
+
+.final-rope-part {
+    width: 0px;          
+    height: 0px;   
+}
+
+.container {
+  display: grid;
+  place-items: center; /* Centers horizontally and vertically */
+  height: 100vh;      /* Full height of the viewport */
+}
+
+#clickableTest {
+    padding: 20px;
+    background-color: lightblue;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-weight: bold;
+    cursor: none; /* keep the real cursor hidden when hovering */
+}
+
+/* We will trigger this manually via JS */
+.pressed {
+  background-color: darkblue !important;
+  color: white;
+  transform: scale(0.95);
+}
