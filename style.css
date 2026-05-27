@@ -23,10 +23,6 @@ body {
 #cursor-image {
     z-index: 9999;
 }
-.clicktest:active {
-  background-color: darkblue;
-  transform: scale(0.95); /* Shrinks the button while pressed */
-}
 
 .rope-part { 
     position: absolute;
@@ -45,22 +41,36 @@ body {
 
 .container {
   display: grid;
-  place-items: center; /* Centers horizontally and vertically */
-  height: 100vh;      /* Full height of the viewport */
+  grid-template-columns: auto auto auto;
+  background-color: dodgerblue;
+  padding: 10px;
+  gap: 5px;
+  border-radius: 5px;
+
 }
 
-#clickableTest {
-    padding: 20px;
-    background-color: lightblue;
-    border-radius: 10px;
-    font-family: sans-serif;
-    font-weight: bold;
-    cursor: none; /* keep the real cursor hidden when hovering */
+.container button {
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+  border-radius: 5px;
+  width: 70px;
+  height: 70px;
 }
 
-/* We will trigger this manually via JS */
-.pressed {
-  background-color: darkblue !important;
+.screen-container {
+  display: flex;
+  justify-content: center; /* Horizontally centers the box */
+  align-items: center;    /* Vertically centers the box */
+  height: 100vh;          /* Takes up 100% of the viewport height */
+  width: 100vw;           /* Takes up 100% of the viewport width */
+  margin: 0;
+}
+
+
+button.pressed {
+  background-color: gray;
   color: white;
   transform: scale(0.95);
-}
+} 
