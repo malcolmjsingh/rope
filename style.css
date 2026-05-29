@@ -3,7 +3,6 @@ html {
 }
 
 body {
- /* cursor: none; */
   -webkit-user-select: none; /* Safari, Chrome, Opera */
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* IE 10+ and Edge */
@@ -20,6 +19,7 @@ body {
     transform: translate(-50%, -50%); 
     z-index: 9990;
 }
+
 #cursor-image {
     z-index: 9999;
 }
@@ -46,7 +46,7 @@ body {
   padding: 10px;
   gap: 5px;
   border-radius: 5px;
-
+  cursor: none; 
 }
 
 .container button {
@@ -57,6 +57,7 @@ body {
   border-radius: 5px;
   width: 70px;
   height: 70px;
+  cursor: none; 
 }
 
 .screen-container {
