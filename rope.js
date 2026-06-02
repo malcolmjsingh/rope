@@ -1,6 +1,8 @@
+// rope.js
 // https://www.owlree.blog/posts/simulating-a-rope.html
+
 class RopePoint {
-    static acceleration = [0, 0.1];
+    static acceleration = [0.0, 0.1];
 
     constructor(x, y, isPinned = false) {
         this.position = [x, y];
@@ -143,107 +145,4 @@ class Rope {
         }
     }
 }
-
-// -> important pseudocode funtions
-/*
-self note: this is the general implementation of updating the position of
-an object using verlet integration
-*as a note, the objects i'm operating on must have both position and
-previous position attributes in order to use this formula
- 
-function verletIntegration(deltaTime, object) {
-    positionHolder = object.position;
-    object.position = 2 * object.position - object.prevPosition + (deltaTime ** 2) * object.accerlation
-    object.prePosition = positionHolder
-}
-*/
-/*
-This is the function used for ensuring that objects in a "rope"
-stay a specific distance from each other. this process is known as relaxiation
-or projection and this specific implementation uses the "Jakobsen method"
- 
-function relaxUsingConstraint(object1, object2, desiredDistance) {
-    // gets a unit vector pointing from object 1 to object 2
-    // (if normalize function doesn't exist you can also
-    //  subtract the vector difference in posiiton by the magnitude of vector diff)
-    direction = normalize(object2.position - object1.position);
-    //scalar distance over desiredDistance between objects
-    deltaDistance = magnitude(object2.position - object1.position) - desdiredDistance
-    
-    // moves to desired distance position
-    object1.position.add(deltaDistance * direction/2)
-    object2.position.subtract(deltaDistance * direction/2)
-}
- 
-const ropeParticleDistance = 3.0;
-function jakobson(objectsList, nInterations) {
-    for (let i=0; i < nInterations; i++) {
-        for (let j=0; j < (objectsList.length - 1); j++) {
-            relaxUsingConstraint(objectsList[j], objectsList[j+1], ropeParticleDistance);
-        }
-    }
-    
-}
- 
- 
- 
- 
- 
-*/
-
-const fakeCursor = document.getElementById('fake-cursor');
-let fakeCursorPos = fakeCursor.getBoundingClientRect();
-let virtualX = 0;
-let virtualY = 0;
-let myRope = Rope.createGenericRope(15, [50, 50], 10);
-
-window.addEventListener('mousemove', (e) => {
-
-    //fakeCursorPos = fakeCursor.getBoundingClientRect();
-    // console.log(fakeCursorPos);
-    myRope.ropeParts[0][0].position[0] = e.clientX;
-    myRope.ropeParts[0][0].position[1] = e.clientY;
-});
-
-window.addEventListener("mousedown", (e) => {
-    const elementAtPoint = document.elementFromPoint(virtualX, virtualY);
-
-    if (elementAtPoint) {
-        // Trigger the JS click event
-        elementAtPoint.click();
-
-        // Bonus: Visually press the button down for 150 milliseconds!
-        elementAtPoint.classList.add("pressed");
-        setTimeout(() => {
-            elementAtPoint.classList.remove("pressed");
-        }, 150);
-    }
-});
-
-window.addEventListener("load", onStart);
-
-
-function onStart() {
-    console.log("window has loaded");
-    console.log(myRope);
-    myRope.physicallyCreatePoints();
-    myRope.drawUpdate(1);
-    requestAnimationFrame(mainLoop);
-}
-
-function mainLoop() {
-    myRope.update(1);
-    virtualX = myRope.ropeParts[0][(myRope.ropeParts[0].length - 1)].position[0];
-    virtualY = myRope.ropeParts[0][(myRope.ropeParts[0].length - 1)].position[1];
-
-    fakeCursor.style.left = virtualX + 'px';
-    fakeCursor.style.top = virtualY + 'px';
-    //myRope.updateFirstPinnedPoint(1);
-    requestAnimationFrame(mainLoop);
-}
-
-const btn = document.getElementById("clickableTest");
-btn.onclick = function () {
-    console.log("Button clicked!");
-};
 

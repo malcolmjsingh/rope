@@ -1,3 +1,11 @@
+
+/* ------------- body setup stuff -------------------
+
+  disables the double click highlight
+  and cursor showing
+
+ --------------------------------------------------- */
+
 html {
   cursor: none; 
 }
@@ -8,6 +16,50 @@ body {
   -ms-user-select: none;     /* IE 10+ and Edge */
   user-select: none;         /* Standard syntax */
 }
+
+/* ---------------- generic stuff & containers ------------------- */
+
+.screen-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  height: 100vh;        
+  width: 100vw;           
+  margin: 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: dodgerblue;
+  padding: 10px;
+  gap: 5px;
+  border-radius: 5px;
+  cursor: none; 
+  height: 40vh;
+  width: 20vw;
+  margin: 20px;
+}
+
+.container button {
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 2em;
+  text-align: center;
+  border-radius: 5px;
+  cursor: none; 
+}
+
+/* -------------------- reactive elements --------------------- */
+
+button.pressed {
+  background-color: gray;
+  color: white;
+  transform: scale(0.95);
+} 
+
+
+/* -------------------- cursor and rope stuff ------------------- */
 
 #fake-cursor {
     width: 0px;
@@ -28,8 +80,8 @@ body {
     position: absolute;
     width: 5px;          
     height: 10px;         
-    background-color: rgb(140, 140, 140); 
-    border-radius: 40%;   /* Optional: makes the rope segments circular */
+    background-color: rgb(0, 0, 0); 
+    border-radius: 40%;   
     pointer-events: none; 
     z-index: 10;
 }
@@ -39,39 +91,53 @@ body {
     height: 0px;   
 }
 
-.container {
+/* ------------------ carousel stuff ----------------- */
+
+.container_carousel {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-rows: auto;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: auto;
   background-color: dodgerblue;
   padding: 10px;
   gap: 5px;
   border-radius: 5px;
   cursor: none; 
+  height: 100vh;
+  width: 50vw;
+  margin: 20px;
+  perspective: 50000px;
+  border: black;
 }
 
-.container button {
-  background-color: #f1f1f1;
-  padding: 10px;
-  font-size: 30px;
-  text-align: center;
-  border-radius: 5px;
-  width: 70px;
-  height: 70px;
-  cursor: none; 
+.carousel_scene {
+  /* these define the dimentions of the cards */
+  width: 10vw;
+  height: 20vh;
+  position: relative;
+  transform-style :preserve-3d;
+  transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-color: greenyellow;
 }
 
-.screen-container {
+.carousel_scene.dragging {
+  transition: none !important;
+}
+
+.carousel_card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   display: flex;
-  justify-content: center; /* Horizontally centers the box */
-  align-items: center;    /* Vertically centers the box */
-  height: 100vh;          /* Takes up 100% of the viewport height */
-  width: 100vw;           /* Takes up 100% of the viewport width */
-  margin: 0;
-}
-
-
-button.pressed {
-  background-color: gray;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: sans-serif;
   color: white;
-  transform: scale(0.95);
-} 
+  border: 2px solid black;
+  backface-visibility: visible;
+}
