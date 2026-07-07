@@ -7,7 +7,7 @@
  --------------------------------------------------- */
 
 html {
-  cursor: none; 
+  cursor: none;
 }
 
 body {
@@ -15,9 +15,109 @@ body {
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* IE 10+ and Edge */
   user-select: none;         /* Standard syntax */
+  background-size: cover;          
+  background-repeat: no-repeat;    
+  background-position: center;     
+  background-attachment: fixed;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* ---------------- generic stuff & containers ------------------- */
+
+.gorb {
+  display: none; 
+  flex-direction: row; 
+  justify-content: center;
+  align-items: center;
+  gap: 5vw; 
+  width: 100vw;
+}
+
+.anothercontainer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px; 
+  
+  gap: 20px; 
+  box-sizing: border-box; 
+
+  height: 60vh;
+  width: 30vw;
+  background-color: rgba(250,253,246,0.95);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  align-items: center;
+  justify-content: center; 
+  
+  overflow: hidden; 
+
+  position: relative;
+}
+
+.nav-arrow {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none; 
+  transition: all 0.3s ease;
+}
+
+.left-arrow {
+  top: 50%; left: 0; transform: translateY(-50%);
+  border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 20px solid black;
+}
+
+.top-arrow {
+  left: 50%; top: 0; transform: translateX(-50%);
+  border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 20px solid black;
+}
+
+.right-arrow {
+  top: 50%; right: 0; transform: translateY(-50%);
+  border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-right: 20px solid black;
+}
+.sentCodeContainer {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  width: 30vw;
+  background-color: rgba(250,253,246,0.95);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#carousel-entire-module {
+    align-items: flex-end; 
+    gap: 0; 
+}
+.simple-submit-btn {
+    width: 30vw; 
+    height: 40px;
+    background-color: #e0e0e0;
+    border: 1px solid #000000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: none; 
+}
+
+.mainWhiteContainer {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  width: 30vw;
+  background-color: rgba(250,253,246,0.95);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 .screen-container {
   display: flex;
@@ -26,29 +126,19 @@ body {
   height: 100vh;        
   width: 100vw;           
   margin: 0;
+  perspective: 500px; 
 }
 
-.container {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  background-color: dodgerblue;
-  padding: 10px;
-  gap: 5px;
-  border-radius: 5px;
-  cursor: none; 
-  height: 40vh;
-  width: 20vw;
-  margin: 20px;
+.screen-container-overlay {
+  position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.2); 
 }
 
-.container button {
-  background-color: #f1f1f1;
-  padding: 10px;
-  font-size: 2em;
-  text-align: center;
-  border-radius: 5px;
-  cursor: none; 
-}
 
 /* -------------------- reactive elements --------------------- */
 
@@ -57,7 +147,6 @@ button.pressed {
   color: white;
   transform: scale(0.95);
 } 
-
 
 /* -------------------- cursor and rope stuff ------------------- */
 
@@ -93,23 +182,6 @@ button.pressed {
 
 /* ------------------ carousel stuff ----------------- */
 
-.container_carousel {
-  display: grid;
-  grid-template-rows: auto;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: auto;
-  background-color: dodgerblue;
-  padding: 10px;
-  gap: 5px;
-  border-radius: 5px;
-  cursor: none; 
-  height: 100vh;
-  width: 50vw;
-  margin: 20px;
-  perspective: 50000px;
-  border: black;
-}
 
 .carousel_scene {
   /* these define the dimentions of the cards */
@@ -118,7 +190,7 @@ button.pressed {
   position: relative;
   transform-style :preserve-3d;
   transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-  background-color: greenyellow;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .carousel_scene.dragging {
@@ -140,4 +212,5 @@ button.pressed {
   color: white;
   border: 2px solid black;
   backface-visibility: visible;
+  
 }

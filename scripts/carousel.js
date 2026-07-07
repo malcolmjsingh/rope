@@ -12,7 +12,6 @@ class Carousel {
       this.boxHeightVH = containerDimentions[1];
       this.uniqueID = carouselID;
       this.rotation = orientHorizontal ? "rotateY" : "rotateX";
-      this.currentlySelectedIndex = 0;
 
       if (this.numElements > 0) {
         this.rotationAmountDeg = 360 / this.numElements;
@@ -28,7 +27,6 @@ class Carousel {
     static CreateGenericCarousel(nCards, parentContainerID, parentContainerDimentions, orientHorizontal = true) {
       const carouselSceneDiv = document.createElement("div");
       const parentContainer = document.getElementById(parentContainerID);
-      console.log(parentContainer);
       parentContainer.appendChild(carouselSceneDiv);
       let uniqueid = Carousel.generateUniqueID();
       carouselSceneDiv.id = "carousel_id_" + uniqueid;
@@ -61,7 +59,7 @@ class Carousel {
       this.carouselScene.style.position = "relative";
       this.carouselScene.style.transformStyle = "preserve-3d";
       this.carouselScene.style.transition = "transform 1s cubic-bezier(0.165, 0.84, 0.44, 1)";
-      this.carouselScene.style.backgroundColor = "greenyellow";
+      this.carouselScene.style.backgroundColor = "rgba(0, 0, 0, 0);";
     }
 
     setupCarouselParts() {
@@ -76,17 +74,19 @@ class Carousel {
         this.carouselScene.appendChild(div);
         div.classList.add(this.uniqueClassTag);
         div.classList.add("carousel_card");
-        div.style.backgroundColor = "rgba(" + getRandomInt(0,255) + ", " + getRandomInt(0,255) + ", " + getRandomInt(0,255) + ", " + "0.9)";
-      
+
+        
+
+        //div.style.backgroundColor = "rgba(" + getRandomInt(0,255) + ", " + getRandomInt(0,255) + ", " + getRandomInt(0,255) + ", " + "0.9)";
+        div.style.backgroundColor = "gray";
+
         let elmRotationAmount = this.rotationAmountDeg * i;
         if (this.rotation == "rotateY") {
-          console.log("rotate y ran");
           div.style.width = cardWidthVW + "vw";
           translateZVal = (cardWidthVW / 2) / Math.tan(Math.PI / this.numElements)
           div.style.transform = this.rotation + "(" + elmRotationAmount + "deg) " +"translateZ(" + translateZVal + "vw)";
         
         } else if (this.rotation == "rotateX") {
-          console.log("rotate X ran");
           div.style.height = cardHeightVH + "vh";
           translateZVal = (cardHeightVH / 2) / Math.tan(Math.PI / this.numElements)
           div.style.transform = this.rotation + "(" + elmRotationAmount + "deg) " +"translateZ(" + translateZVal + "vh)";
@@ -101,23 +101,77 @@ class Carousel {
       this.carouselScene.style.height = cardHeightVH + "vh";
     }
 
-    rotateCarouselOnce() {
-      this.currentAngle -= this.rotationAmountDeg;
+    rotateCarouselOnce(amount = 1) {
+      this.currentAngle -= this.rotationAmountDeg * amount;
       this.carouselScene.style.transform = this.rotation + "("+ this.currentAngle + "deg)";
     }
 
-    updateCurrentlySelectedIndex() {
-      console.log(this.currentAngle);
-      let lowVal = Math.trunc(this.currentAngle / this.rotationAmountDeg) * this.rotationAmountDeg;
-      let highVal = lowVal   + this.rotationAmountDeg;
+    switchOrientation() {
+      this.rotation = this.rotation === "rotateY" ? "rotateX" : "rotateY";
+
+      let cardWidthVW = this.boxWidthVW * Math.sin(Math.PI / this.numElements);
+      let cardHeightVH = this.boxHeightVH * Math.sin(Math.PI / this.numElements);
       
-      if (Math.abs(this.currentAngle - lowVal) > Math.abs(this.currentAngle - highVal)) {
-        //distance to low val is greater than distance to high val
-        this.currentlySelectedIndex = (highVal / 360) * this.numElements
+      let translateZVal;
+      let zUnit;
+
+      if (this.rotation === "rotateY") {
+        translateZVal = (cardWidthVW / 2) / Math.tan(Math.PI / this.numElements);
+        zUnit = "vw";
       } else {
-        this.currentlySelectedIndex = (lowVal / 360) * this.numElements
+        translateZVal = (cardHeightVH / 2) / Math.tan(Math.PI / this.numElements);
+        zUnit = "vh";
       }
-    }
+
+      let cards = this.carouselScene.querySelectorAll('.carousel_card');
+      
+      for (let i = 0; i < cards.length; i++) {
+        let div = cards[i];
+        let elmRotationAmount = this.rotationAmountDeg * i;
+        
+        div.style.transform = this.rotation + "(" + elmRotationAmount + "deg) translateZ(" + translateZVal + zUnit + ")";
+         if (this.rotation === "rotateY") {
+            div.style.width = cardWidthVW + "vw";
+            div.style.height = "100%"; 
+          } else if (this.rotation === "rotateX") {
+            div.style.height = cardHeightVH + "vh";
+            div.style.width = "100%"; 
+        }
+      }
+      this.carouselScene.style.transform = this.rotation + "(" + this.currentAngle + "deg)";
+  }
+
+    getSelectedCells() {
+    // ai generated becasue i was too lazy to manually write this 😭
+
+    // 1. Calculate how many "slots" the carousel has rotated.
+    // We use -this.currentAngle because rotating the scene positively 
+    // brings negative indexed cards (wrapping backwards) to the front.
+    let steps = Math.round(-this.currentAngle / this.rotationAmountDeg);
+
+    // 2. Safely wrap the index between 0 and (numElements - 1).
+    // Note: We do ((steps % N) + N) % N instead of just (steps % N) 
+    // because JavaScript has a quirk where negative modulos remain negative (e.g. -1 % 9 = -1).
+    let N = this.numElements;
+    let frontIndex = ((steps % N) + N) % N;
+
+    // 3. Find the offset for the edges (a quarter turn = N / 4)
+    let edgeOffset = Math.round(N / 4);
+
+    // 4. Calculate the indexes of the edge cards
+    let rightOrBottomEdge = (frontIndex + edgeOffset) % N;
+    let leftOrTopEdge = (((frontIndex - edgeOffset) % N) + N) % N;
+
+    // Return the data cleanly
+    return {
+        center: frontIndex,
+        right: this.rotation === "rotateY" ? rightOrBottomEdge : null,
+        left: this.rotation === "rotateY" ? leftOrTopEdge : null,
+        bottom: this.rotation === "rotateX" ? rightOrBottomEdge : null,
+        top: this.rotation === "rotateX" ? leftOrTopEdge : null
+    };
+
+}
 }
 
 function getRandomInt(min, max) {

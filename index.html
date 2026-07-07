@@ -3,39 +3,80 @@
 <head>   
     <link rel="stylesheet" href="style.css">
     
-    <script defer src="carousel.js"></script>
-    <script defer src="rope.js"></script>
-    
-    <script defer src="script.js"></script>
+    <script defer src="scripts/carousel.js"></script>
+    <script defer src="scripts/rope.js"></script>
+   <!-- <script defer src="scripts/imageSprayEffect.js"></script>-->
+    <script defer src="scripts/imageSpraytest.js"></script>
+
+    <script defer src="scripts/script.js"></script>
 </head>
 
-<div id="fake-cursor"><img id="cursor-image" src="cursor.png" width="16" height="16"></div>
+<div id="fake-cursor"><img id="cursor-image" src="cursor.png" width="24" height="24"></div>
 <div id="rope-container"></div>
-
+<div id="testcontainer"></div>
 <div class="screen-container">
-    <div class="container">
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-    </div>
-    <div class="container_carousel" id="carouselParentContainer">
-       <!-- <div class="carousel_scene" id="carousel">
-            <div class="carousel_card">1</div>
-            <div class="carousel_card">2</div>
-            <div class="carousel_card">3</div>
-            <div class="carousel_card">4</div>
-            <div class="carousel_card">5</div>
-            <div class="carousel_card">6</div>
-            <div class="carousel_card">7</div>
-            <div class="carousel_card">8</div>
-            <div class="carousel_card">9</div>
-        </div> -->
+    <div class="screen-container-overlay">
+        <!-- i wrote all this stuff but then i was like wow im doing too much so im not oging to use it
+        <div class="initialContainer">
+            <h2>Login</h2>
+            <hr class="divider">
+            <form>
+                <label>Login</label>
+                <input type="text" id="login-username" required>
+                <span>&#9993;</span>
+                <br>
+                <label>Password</label>
+                <input type="text" id="login-username" required>
+                <span>&#128274;</span>
+                <br>
+                <a onclick="forgotPasswordClicked()" href="#" class="login-forgot-link">Forgot your password?</a>
+            </form>
+        </div>
+        <div class="password verification">
+        </div>
+
+        -->
+    
+
+        <div class="mainWhiteContainer">
+            <h2>Login</h2>
+            <p id="incorrectPasswordText" style="color: red;"></p>
+            <form>
+                <label>Login</label>
+                <input type="text" id="login-username" style="cursor: none" required>
+                <span>&#9993;</span>
+                <br>
+                <label>Password</label>
+                <input type="password" id="login-username" style="cursor: none" required>
+                <span>&#128274;</span>
+                <br>
+                <a onclick="startProcess1()" href="#" class="login-forgot-link" style="cursor: none">Forgot your password?</a>
+                <br><br>
+                <button onclick="document.getElementById('incorrectPasswordText').textContent = 'Username or Password was incorrect'
+                " type="submit" style="cursor: none">Submit</button>
+            </form>
+        </div>
+
+
+        <div class="gorb">
+            <div class="sentCodeContainer">
+                <h2 id="codegeneratingtext">Password Reset</h2>
+                <p id="codegeneratingtext3" style="margin: 10px;">Please click the button below and we will send a recovery code to your associated Email.</p>
+                <p>                                         <p></p>
+                <button id="startProcess2button" style="cursor: none; width: 28vw; height: 50px;" onclick="startProcess2()">press</button>
+            </div>
+            
+            <div id="carousel-entire-module" style="display: none">
+                <div class="carousel-section-wrapper">
+                    <div class="anothercontainer" id="carouselParentContainer">
+                        <div id="arrow-left" class="nav-arrow left-arrow"></div>
+                        <div style="display:none" id="pointer-2" class="nav-arrow right-arrow"></div>
+                        <div id="arrow-top" class="nav-arrow top-arrow"></div>
+                    </div>
+                    <button class="simple-submit-btn" onclick="submitCarouselCode()">Submit</button>
+            </div>
+            </div>
+        </div>
     </div>
 </div>
 

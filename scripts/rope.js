@@ -78,6 +78,15 @@ class Rope {
         this.drawUpdate(deltaTime);
     }
 
+    moveAllToPoint(point) {
+        for (let i = 0; i < this.ropeParts[0].length; i++) {
+            this.ropeParts[0][i].position[0] = point[0];
+            this.ropeParts[0][i].position[1] = point[1];
+            this.ropeParts[0][i].lastPosition[0] = point[0];
+            this.ropeParts[0][i].lastPosition[1] = point[1];
+        }
+    }
+
 
     drawUpdate(_deltaTime) {
         for (let i = 0; i < this.ropeParts[0].length; i++) {
